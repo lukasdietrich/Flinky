@@ -209,6 +209,33 @@ public class TicketHandler {
 		prepare.close();
 	}
 	
+	public void hasNewTickets(Player player) throws SQLException {
+		Connection conn = db.getConnection();
+		PreparedStatement prepare = conn.prepareStatement("SELECT id FROM tickets");
+		conn.setAutoCommit(false);
+		 
+		ResultSet rs = prepare.executeQuery();
+		
+		int i = 0;
+		while(true) {
+			if(!rs.next())
+				break;
+			i++;
+		}
+		
+		conn.commit();
+		
+		conn.setAutoCommit(true);
+		
+		prepare.close();
+		
+		if(rs != null) {
+			rs.close();
+		}
+		
+		player.sendMessage(ChatColor.GOLD +"There are ("+ i +") new ticket/s");
+	}
+	
 	public void showReplies(Player player) throws SQLException {
 		Connection conn = db.getConnection();
 		PreparedStatement prepare = conn.prepareStatement("SELECT * FROM answers WHERE player='"+ player.getName() +"' ORDER BY id ASC");

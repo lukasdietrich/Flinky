@@ -63,9 +63,15 @@ public class ChatListener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void showTicketListener(PlayerJoinEvent e) {
+		if(e.getPlayer().hasPermission("flinky.ticketadmin")) {
+			try {
+				th.hasNewTickets(e.getPlayer());
+			} catch (SQLException e1) { /* no handling :/ */ }
+		}
+		
 		try {
 			th.showReplies(e.getPlayer());
-		} catch (SQLException e1) {}
+		} catch (SQLException e1) { /* no handling :/ */ }
 	}
 	
 }
