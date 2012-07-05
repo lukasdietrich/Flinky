@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry excluding="src/" kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/home/lukas/Downloads/bukkit-1.2.5-R4.1-20120618.060128-13.jar"/>
+	<classpathentry kind="lib" path="/home/lukas/Downloads/bukkit-1.2.5-R4.1-20120705.042223-21.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

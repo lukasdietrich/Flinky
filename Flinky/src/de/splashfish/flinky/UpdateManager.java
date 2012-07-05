@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -71,6 +73,7 @@ public class UpdateManager {
 	}
 	
 	private boolean updateJar(String url) {
+		System.out.println(url);
 		try {
 			if(flinky_file.exists()) {
 				flinky_file.renameTo(flinky_old);
@@ -79,7 +82,7 @@ public class UpdateManager {
 			URL https_url = new URL(url);
 			HttpsURLConnection con = (HttpsURLConnection) https_url.openConnection();
 			
-			InputStream 	sourcestream = con.getInputStream();
+			InputStream 	sourcestream = openConnectionCheckRedirects(con);
 			OutputStream	outputstream = new FileOutputStream(flinky_file);
 			
 			byte[] transferbuffer = new byte[1024];
@@ -105,5 +108,50 @@ public class UpdateManager {
 		}
 		
 		return false;
+	}
+	
+	private InputStream openConnectionCheckRedirects(URLConnection c) throws IOException {
+		/*
+		 * This snippet belongs to:
+		 * http://docs.oracle.com/javase/1.4.2/docs/guide/deployment/deployment-guide/upgrade-guide/article-17.html
+		 */
+		
+		boolean redir;
+		int redirects = 0;
+		InputStream in = null;
+		do {
+			if (c instanceof HttpURLConnection) {
+				((HttpURLConnection) c).setInstanceFollowRedirects(false);
+			}
+
+			in = c.getInputStream();
+			redir = false;
+			if (c instanceof HttpURLConnection) {
+				HttpURLConnection http = (HttpURLConnection) c;
+				int stat = http.getResponseCode();
+				if (stat >= 300 && stat <= 307 && stat != 306
+						&& stat != HttpURLConnection.HTTP_NOT_MODIFIED) {
+					URL base = http.getURL();
+					String loc = http.getHeaderField("Location");
+					URL target = null;
+					if (loc != null) {
+						target = new URL(base, loc);
+					}
+					http.disconnect();
+
+					if (target == null
+							|| !(target.getProtocol().equals("http") || target
+									.getProtocol().equals("https"))
+							|| redirects >= 5) {
+						throw new SecurityException("illegal URL redirect");
+					}
+					redir = true;
+					c = target.openConnection();
+					redirects++;
+				}
+			}
+		} while (redir);
+		
+		return in;
 	}
 }

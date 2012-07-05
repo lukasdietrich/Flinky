@@ -116,14 +116,14 @@ public class Commands {
 	}
 	
 	public boolean ticket(Player player, CommandSender sender, String label, String[] args) {
-		if(args.length == 0) {
+		if(args.length == 0 && player instanceof Player) {
 			if(player.hasPermission(ap))
 				sender.sendMessage(new String[] {
 					ChatColor.GRAY 	+"-----------"+ChatColor.RED+"TICKET"+ChatColor.GRAY+"-----------",
 					ChatColor.RED  	+"/ticket new <message>",
 					ChatColor.RED  	+"/ticket list",
 					ChatColor.RED  	+"/ticket close <id>",
-					ChatColor.BLUE  +"/ticket rely <id> <message>",
+					ChatColor.BLUE  +"/ticket relpy <id> <message>",
 					ChatColor.GRAY 	+"----------------------------",
 				});
 			else

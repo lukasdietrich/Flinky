@@ -1,7 +1,7 @@
 main: de.splashfish.flinky.Flinky
 name: Flinky
 load: POSTWORLD
-version: 2.07
+version: 2.10
 author: SplashFish
 commands:
    flinky:

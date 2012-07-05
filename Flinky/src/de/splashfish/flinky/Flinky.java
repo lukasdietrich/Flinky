@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Flinky extends JavaPlugin {
 	
-	public 	static 	String				version		= "2.07";
+	public 	static 	String				version		= "2.10";
 	
 	private static	Logger 				pstream;
 	private	static	ConfigHandler		ch;
@@ -48,9 +48,6 @@ public class Flinky extends JavaPlugin {
 		//init tickethandler
 		th = new TicketHandler(this.getLogger(), this.getDataFolder());
 		
-		//init cmds
-		cmds = new Commands(this, th, um);
-		
 		//register the chatlistener
 		pm.registerEvents(new ChatListener(this.getDataFolder(), th), this);
 		
@@ -59,6 +56,9 @@ public class Flinky extends JavaPlugin {
 		
 		//init updater
 		um = new UpdateManager(this.getDataFolder());
+		
+		//init cmds
+		cmds = new Commands(this, th, um);
 		
 		print("SplashFish was here :D");
 	}
