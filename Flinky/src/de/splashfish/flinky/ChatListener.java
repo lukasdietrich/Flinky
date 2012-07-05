@@ -61,18 +61,25 @@ public class ChatListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint7(ServerCommandEvent e) {
 		if(!e.getCommand().toLowerCase().startsWith("rtping"))
 			buffer.log("Console: /"+ e.getCommand());
-		buffer.log("Console: /"+ e.getCommand());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void showTicketListener(final PlayerJoinEvent e) {
-		String onJoin = Flinky.globalVar("onJoinGamemode");
+		
+		final String onJoin = Flinky.globalVar("onJoinGamemode");
 		if(onJoin.length() == 1) {
-			switch(onJoin.charAt(0)) {
-			case '0': e.getPlayer().setGameMode(GameMode.SURVIVAL); break;
-			case '1': e.getPlayer().setGameMode(GameMode.CREATIVE); break;
-			}
-		}
+			DelayTask.invoke(new TimerTask() {
+
+				@Override public void run() {
+					switch(onJoin.charAt(0)) {
+					case '0': e.getPlayer().setGameMode(GameMode.SURVIVAL); break;
+					case '1': e.getPlayer().setGameMode(GameMode.CREATIVE); break;
+					}
+				}
 				
+			}, 2000);
+
+		}
+		
 		if(e.getPlayer().hasPermission("flinky.ticketadmin")) {
 			DelayTask.invoke(new TimerTask() {
 
