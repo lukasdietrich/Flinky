@@ -117,13 +117,23 @@ public class Commands {
 	
 	public boolean ticket(Player player, CommandSender sender, String label, String[] args) {
 		if(args.length == 0) {
-			sender.sendMessage(new String[] {
-				ChatColor.GRAY +"-----------"+ChatColor.RED+"TICKET"+ChatColor.GRAY+"-----------",
-				ChatColor.RED  +"/ticket new <message>",
-				ChatColor.RED  +"/ticket list",
-				ChatColor.RED  +"/ticket close <id>",
-				ChatColor.GRAY +"----------------------------",
-			});
+			if(player.hasPermission(ap))
+				sender.sendMessage(new String[] {
+					ChatColor.GRAY 	+"-----------"+ChatColor.RED+"TICKET"+ChatColor.GRAY+"-----------",
+					ChatColor.RED  	+"/ticket new <message>",
+					ChatColor.RED  	+"/ticket list",
+					ChatColor.RED  	+"/ticket close <id>",
+					ChatColor.BLUE  +"/ticket rely <id> <message>",
+					ChatColor.GRAY 	+"----------------------------",
+				});
+			else
+				sender.sendMessage(new String[] {
+						ChatColor.GRAY +"-----------"+ChatColor.RED+"TICKET"+ChatColor.GRAY+"-----------",
+						ChatColor.RED  +"/ticket new <message>",
+						ChatColor.RED  +"/ticket list",
+						ChatColor.RED  +"/ticket close <id>",
+						ChatColor.GRAY +"----------------------------",
+					});
 		} else {
 			String innercmd = args[0];
 			String message = null;
