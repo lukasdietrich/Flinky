@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Flinky extends JavaPlugin {
 	
-	public 	static 	String				version		= "2.11";
+	public 	static 	String				version		= "2.12";
 	
 	private static	Logger 				pstream;
 	private	static	ConfigHandler		ch;
