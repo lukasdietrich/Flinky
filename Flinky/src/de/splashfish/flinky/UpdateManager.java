@@ -28,26 +28,38 @@ public class UpdateManager {
 		this.flinky_old = new File(this.flinky_file.getAbsolutePath()+".old");
 	}
 	
-	public boolean invokeUpdate(CommandSender sender) {
-		try {
-			sender.sendMessage(ChatColor.DARK_PURPLE + "Searching for updates..");
-			String[] newest = getNewest();
-			if(newest != null && newest.length >= 2) {
-				if(!newest[0].equalsIgnoreCase(Flinky.version)) {
-					sender.sendMessage(ChatColor.DARK_PURPLE + "Update found!");
-					if(updateJar(newest[1])) {
-						sender.sendMessage(ChatColor.DARK_PURPLE + "Successfully updated! Changes will be applied on next reload.");
-					} else {
-						sender.sendMessage(ChatColor.DARK_PURPLE + "A error occurred while updating!");
+	private boolean isWorking = false;
+	public boolean invokeUpdate(final CommandSender sender) {
+		if(!isWorking) {
+			new Thread() {
+				@Override public void run() {
+					isWorking = true;
+					try {	
+						sender.sendMessage(ChatColor.DARK_PURPLE + "Searching for updates..");
+						String[] newest = getNewest();
+						if(newest != null && newest.length >= 2) {
+							if(!newest[0].equalsIgnoreCase(Flinky.version)) {
+								sender.sendMessage(ChatColor.DARK_PURPLE + "Update found!");
+								if(updateJar(newest[1])) {
+									sender.sendMessage(ChatColor.DARK_PURPLE + "Successfully updated! Changes will be applied on next reload.");
+								} else {
+									sender.sendMessage(ChatColor.DARK_PURPLE + "A error occurred while updating!");
+								}
+							} else {
+								sender.sendMessage(ChatColor.DARK_PURPLE + "Flinky is up-to-date!");
+							}
+						} else {
+							sender.sendMessage(ChatColor.DARK_PURPLE + "The 'latest'-file seems to be corrupted! Or was not able to be downloaded.");
+						}
+					} catch (IOException e) {
+						sender.sendMessage(ChatColor.DARK_PURPLE + "A error occurred while searching for updates!");
+					} finally {
+						isWorking = false;
 					}
-				} else {
-					sender.sendMessage(ChatColor.DARK_PURPLE + "Flinky is up-to-date!");
 				}
-			} else {
-				sender.sendMessage(ChatColor.DARK_PURPLE + "The 'latest'-file seems to be corrupted! Or was not able to be downloaded.");
-			}
-		} catch (IOException e) {
-			sender.sendMessage(ChatColor.DARK_PURPLE + "A error occurred while searching for updates!");
+			}.start();
+		} else {
+			sender.sendMessage(ChatColor.DARK_PURPLE + "Another player just invoked an update.");
 		}
 		return true;
 	}
