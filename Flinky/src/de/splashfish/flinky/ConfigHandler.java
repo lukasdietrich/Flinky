@@ -20,10 +20,9 @@ public class ConfigHandler {
 		cFile 	= new File(rootFile.getAbsolutePath() +"/config.yml");
 		config 	= new Properties();
 		
-		defaults.put("flushEvery", 			"20");
+		defaults.put("flushEvery", 			"35");
 		defaults.put("printWhenFlushed", 	"true");
-		defaults.put("removeOlderThan", 	"0");
-		defaults.put("advertEvery", 		"30");
+		defaults.put("onJoinGamemode", 		"1");
 		
 		if(!cFile.exists()) {
 			try {

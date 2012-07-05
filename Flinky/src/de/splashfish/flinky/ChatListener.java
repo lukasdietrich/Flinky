@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.TimerTask;
 
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -64,6 +65,14 @@ public class ChatListener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void showTicketListener(final PlayerJoinEvent e) {
+		String onJoin = Flinky.globalVar("onJoinGamemode");
+		if(onJoin.length() == 1) {
+			switch(onJoin.charAt(0)) {
+			case '0': e.getPlayer().setGameMode(GameMode.SURVIVAL); break;
+			case '1': e.getPlayer().setGameMode(GameMode.CREATIVE); break;
+			}
+		}
+				
 		if(e.getPlayer().hasPermission("flinky.ticketadmin")) {
 			DelayTask.invoke(new TimerTask() {
 
