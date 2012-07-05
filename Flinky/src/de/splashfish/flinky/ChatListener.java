@@ -2,6 +2,7 @@ package de.splashfish.flinky;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.TimerTask;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -62,16 +63,28 @@ public class ChatListener implements Listener {
 		buffer.log("Console: /"+ e.getCommand());
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST) public void showTicketListener(PlayerJoinEvent e) {
+	@EventHandler(priority = EventPriority.LOWEST) public void showTicketListener(final PlayerJoinEvent e) {
 		if(e.getPlayer().hasPermission("flinky.ticketadmin")) {
-			try {
-				th.hasNewTickets(e.getPlayer());
-			} catch (SQLException e1) { /* no handling :/ */ }
+			DelayTask.invoke(new TimerTask() {
+
+				@Override public void run() {
+					try {
+						th.hasNewTickets(e.getPlayer());
+					} catch (SQLException e) {}
+				}
+				
+			}, 5000);
 		}
 		
-		try {
-			th.showReplies(e.getPlayer());
-		} catch (SQLException e1) { /* no handling :/ */ }
+		DelayTask.invoke(new TimerTask() {
+
+			@Override public void run() {
+				try {
+					th.showReplies(e.getPlayer());
+				} catch (SQLException e) {}
+			}
+			
+		}, 6500);
 	}
 	
 }
