@@ -30,7 +30,7 @@ public class UpdateManager {
 		try {
 			sender.sendMessage(ChatColor.DARK_PURPLE + "Searching for updates..");
 			String[] newest = getNewest();
-			if(newest.length >= 2) {
+			if(newest != null && newest.length >= 2) {
 				if(!newest[0].equalsIgnoreCase(Flinky.version)) {
 					sender.sendMessage(ChatColor.DARK_PURPLE + "Update found!");
 					if(updateJar(newest[1])) {
@@ -42,7 +42,7 @@ public class UpdateManager {
 					sender.sendMessage(ChatColor.DARK_PURPLE + "Flinky is up-to-date!");
 				}
 			} else {
-				sender.sendMessage(ChatColor.DARK_PURPLE + "The 'latest'-file seems to be corrupted!");
+				sender.sendMessage(ChatColor.DARK_PURPLE + "The 'latest'-file seems to be corrupted! Or was not able to be downloaded.");
 			}
 		} catch (IOException e) {
 			sender.sendMessage(ChatColor.DARK_PURPLE + "A error occurred while searching for updates!");
