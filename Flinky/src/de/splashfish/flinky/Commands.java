@@ -18,24 +18,31 @@ public class Commands {
 	private String ap = "flinky.ticketadmin";
 	private JavaPlugin plug;
 	private TicketHandler th;
-	public Commands(JavaPlugin plug, TicketHandler th) {
+	private UpdateManager um;
+	public Commands(JavaPlugin plug, TicketHandler th, UpdateManager um) {
 		this.plug = plug;
 		this.th = th;
+		this.um = um;
 	}
 	
-	public boolean backup(CommandSender sender, String label, String[] args) {
-		if(sender.hasPermission("flinky.general"))
-		if(args.length > 0) {
+	public boolean flinky(CommandSender sender, String label, String[] args) {
+		if(sender.hasPermission("flinky.general") && args.length > 0) {
 			if(args[0].equalsIgnoreCase("backup")) {
-				if(BackupHandler.backup(sender, plug.getDataFolder())) {
-					sender.sendMessage(ChatColor.DARK_PURPLE +"Backup started!");
-				} else {
-					sender.sendMessage(ChatColor.DARK_PURPLE +"Somebody already started a backup!");
-				}
-				return true;
+				return backup(sender, label, args);
+			} else if(args[0].equalsIgnoreCase("update")) {
+				return um.invokeUpdate(sender);
 			}
 		}
 		return false;
+	}
+	
+	private boolean backup(CommandSender sender, String label, String[] args) {
+		if(BackupHandler.backup(sender, plug.getDataFolder())) {
+			sender.sendMessage(ChatColor.DARK_PURPLE +"Backup started!");
+		} else {
+			sender.sendMessage(ChatColor.DARK_PURPLE +"Somebody already started a backup!");
+		}
+		return true;
 	}
 	
 	public boolean ban(Player player, CommandSender sender, String label, String[] args) {
