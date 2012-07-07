@@ -22,14 +22,15 @@ __This is a bukkit plugin created for the introverse server by Jalmar.__
 >Admins with the set permissions are able to use __/ticket list__ to list the last 5 tickets and __/ticket reply <id> <answer>__,
 >which will send a) a message to the player if online or b) a message when the player is online again.
 
-#### Freeze the time
->__/freezetime__ will freeze the time in the world the player is in at the execution time.
->If the time was frozen before, it will be simply unfrozen!
-
-#### No bad weather anymore
->__/foreversun__ prevents the world in which the command was executed to change the weather.
->It will be sunny forever!
->If the world was sunny forever before it will be able to change the weather after executing the command again.
+__currently disabled__
+>#### Freeze the time
+>>__/freezetime__ will freeze the time in the world the player is in at the execution time.
+>>If the time was frozen before, it will be simply unfrozen!
+>
+>#### No bad weather anymore
+>>__/foreversun__ prevents the world in which the command was executed to change the weather.
+>>It will be sunny forever!
+>>If the world was sunny forever before it will be able to change the weather after executing the command again.
 
 #### Backup
 >__/flinky backup__ will create a Flinky_bak.zip with all the data Flinky collected in the root folder of bukkit.

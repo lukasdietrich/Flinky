@@ -10,12 +10,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Flinky extends JavaPlugin {
 	
-	public 	static 	String				version		= "2.13";
+	public 	static 	String				version		= "2.14";
 	
 	private static	Logger 				pstream;
 	private	static	ConfigHandler		ch;
 	private			PluginManager		pm;
-	private			FreezeNatureHandler fnh;
+	//private			FreezeNatureHandler fnh;
 	private			UpdateManager		um;
 	
 	public static void print(String arg) {
@@ -52,7 +52,7 @@ public class Flinky extends JavaPlugin {
 		pm.registerEvents(new ChatListener(this.getDataFolder(), th), this);
 		
 		//init naturehandler
-		fnh = new FreezeNatureHandler(pm, this);
+		//fnh = new FreezeNatureHandler(pm, this);
 		
 		//init updater
 		um = new UpdateManager(this.getDataFolder());
@@ -65,7 +65,7 @@ public class Flinky extends JavaPlugin {
 	 
 	@Override public void onDisable() { 
 		this.th.disable();
-		this.fnh.disable();
+		//this.fnh.disable();
 	}
 	
 	private Commands cmds;
@@ -84,8 +84,8 @@ public class Flinky extends JavaPlugin {
 			return cmds.ban(player, sender, label, args);
 		} else if(cmd.getName().equalsIgnoreCase("funban")) {
 			return cmds.unban(player, sender, label, args);
-		} else if (cmd.getName().equalsIgnoreCase("freezetime") || cmd.getName().equalsIgnoreCase("foreversun")) {
-			return fnh.handleCommands(sender, cmd, label, args);
+		//} else if (cmd.getName().equalsIgnoreCase("freezetime") || cmd.getName().equalsIgnoreCase("foreversun")) {
+		//	return fnh.handleCommands(sender, cmd, label, args);
 		} else {
 			return false;
 		}

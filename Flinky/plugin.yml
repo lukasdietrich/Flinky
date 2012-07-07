@@ -1,7 +1,7 @@
 main: de.splashfish.flinky.Flinky
 name: Flinky
 load: POSTWORLD
-version: 2.13
+version: 2.14
 author: SplashFish
 commands:
    flinky:
@@ -23,14 +23,4 @@ commands:
       description: Flinky-Ticket-System. Players can send Admins a ticket
       usage: /ticket <args>
       permission: flinky.ticket
-      permission-message: You don't have <permission>
-   freezetime:
-      description: Freezes servertime based on the world you're in.
-      usage: /freezetime
-      permission: flinky.freezetime
-      permission-message: You don't have <permission>
-   foreversun:
-      description: Keeps the weather at 'sun' in the world you're in.
-      usage: /foreversun
-      permission: flinky.foreversun
       permission-message: You don't have <permission>
