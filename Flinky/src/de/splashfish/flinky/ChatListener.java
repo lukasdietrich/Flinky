@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -43,7 +44,10 @@ public class ChatListener implements Listener {
 	
 	private void printToPlayers(String s) {
 		for(CommandSender p : realtime) {
-			p.sendMessage(ChatColor.DARK_AQUA +"[FLINKY]"+ ChatColor.GOLD +" "+ s);
+			if(p instanceof Player && !((Player)p).isOnline())
+				realtime.remove(p);
+			else
+				p.sendMessage(ChatColor.DARK_AQUA +"[FLINKY]"+ ChatColor.GOLD +" "+ s);
 		}
 	}
 	
