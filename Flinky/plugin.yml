@@ -1,13 +1,18 @@
 main: de.splashfish.flinky.Flinky
 name: Flinky
 load: POSTWORLD
-version: 2.16
+version: 2.17
 author: SplashFish
 commands:
    flinky:
       description: General commands.
       usage: /flinky <args>
       permission: flinky.general
+      permission-message: You don't have <permission>
+   fkick:
+      description: Flinky-Kick. Will kick anybody, even ops
+      usage: /fkick <player>
+      permission: flinky.fkick
       permission-message: You don't have <permission>
    fban:
       description: Flinky-Ban. Will ban name and all ips associated with this player

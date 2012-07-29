@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
@@ -119,6 +120,24 @@ public class Commands {
 				}
 			}
 			
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean kick(Player player, CommandSender sender, String label, String[] args) {
+		if(args.length > 0) {
+			Player p = Bukkit.getPlayer(args[0]);
+			if(p.isOnline()) {
+				
+				boolean op = p.isOp();
+				p.setOp(false);
+				p.kickPlayer("r u serious?");
+				p.setOp(op);
+				
+			} else {
+				sender.sendMessage(ChatColor.RED +"Player not online");
+			}
 			return true;
 		}
 		return false;

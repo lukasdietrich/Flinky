@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Flinky extends JavaPlugin {
 	
-	public 	static 	String				version		= "2.16";
+	public 	static 	String				version		= "2.17";
 	
 	private static	Logger 				pstream;
 	private	static	ConfigHandler		ch;
@@ -90,6 +90,8 @@ public class Flinky extends JavaPlugin {
 			return cmds.unban(player, sender, label, args);
 		//} else if (cmd.getName().equalsIgnoreCase("freezetime") || cmd.getName().equalsIgnoreCase("foreversun")) {
 		//	return fnh.handleCommands(sender, cmd, label, args);
+		} else if(cmd.getName().equalsIgnoreCase("fkick")) {
+			return cmds.kick(player, sender, label, args);
 		} else {
 			return false;
 		}
