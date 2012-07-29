@@ -10,13 +10,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Flinky extends JavaPlugin {
 	
-	public 	static 	String				version		= "2.14";
+	public 	static 	String				version		= "2.15";
 	
 	private static	Logger 				pstream;
 	private	static	ConfigHandler		ch;
 	private			PluginManager		pm;
 	//private			FreezeNatureHandler fnh;
 	private			UpdateManager		um;
+	private			ChatListener		cl;
 	
 	public static void print(String arg) {
 		pstream.info(arg);
@@ -48,8 +49,11 @@ public class Flinky extends JavaPlugin {
 		//init tickethandler
 		th = new TicketHandler(this.getLogger(), this.getDataFolder());
 		
+		//init chatlistener
+		cl = new ChatListener(this.getDataFolder(), th);
+		
 		//register the chatlistener
-		pm.registerEvents(new ChatListener(this.getDataFolder(), th), this);
+		pm.registerEvents(cl, this);
 		
 		//init naturehandler
 		//fnh = new FreezeNatureHandler(pm, this);
@@ -58,7 +62,7 @@ public class Flinky extends JavaPlugin {
 		um = new UpdateManager(this.getDataFolder());
 		
 		//init cmds
-		cmds = new Commands(this, th, um);
+		cmds = new Commands(this, th, um, cl);
 		
 		print("SplashFish was here :D");
 	}

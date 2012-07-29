@@ -2,9 +2,12 @@ package de.splashfish.flinky;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.TimerTask;
 
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -21,12 +24,29 @@ public class ChatListener implements Listener {
 
 	private TicketHandler th;
 	private BufferHandler buffer;
+	private ArrayList<CommandSender> realtime = new ArrayList<CommandSender>();
 	
 	public ChatListener(File rootFile, TicketHandler th) {
 		buffer = new BufferHandler(rootFile);
 		this.th = th;
 	}
 
+	public boolean toggleRealtimeOutput(CommandSender sender) {
+		if(sender.isOp() && !realtime.contains(sender)) {
+			realtime.add(sender);
+			return true;
+		} else {
+			realtime.remove(sender);
+			return false;
+		}
+	}
+	
+	private void printToPlayers(String s) {
+		for(CommandSender p : realtime) {
+			p.sendMessage(ChatColor.DARK_AQUA +"[FLINKY]"+ ChatColor.GOLD +" "+ s);
+		}
+	}
+	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint1(PlayerChatEvent e) {
 		buffer.log(e.getPlayer().getName() +": "+ e.getMessage());
 	}
@@ -38,6 +58,7 @@ public class ChatListener implements Listener {
 			buffer.log(e.getPlayer().getName() +" tries to register via AuthMe");
 		} else {
 			buffer.log(e.getPlayer().getName() +": "+ e.getMessage());
+			printToPlayers(e.getPlayer().getName() +": "+ e.getMessage());
 		}
 	}
 	
@@ -59,8 +80,10 @@ public class ChatListener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint7(ServerCommandEvent e) {
-		if(!e.getCommand().toLowerCase().startsWith("rtping"))
+		if(!e.getCommand().toLowerCase().startsWith("rtping")) {
 			buffer.log("Console: /"+ e.getCommand());
+			printToPlayers("Console: /"+ e.getCommand());
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void showTicketListener(final PlayerJoinEvent e) {

@@ -19,10 +19,12 @@ public class Commands {
 	private JavaPlugin plug;
 	private TicketHandler th;
 	private UpdateManager um;
-	public Commands(JavaPlugin plug, TicketHandler th, UpdateManager um) {
+	private ChatListener cl;
+	public Commands(JavaPlugin plug, TicketHandler th, UpdateManager um, ChatListener cl) {
 		this.plug = plug;
 		this.th = th;
 		this.um = um;
+		this.cl = cl;
 	}
 	
 	public boolean flinky(CommandSender sender, String label, String[] args) {
@@ -31,6 +33,13 @@ public class Commands {
 				return backup(sender, label, args);
 			} else if(args[0].equalsIgnoreCase("update")) {
 				return um.invokeUpdate(sender);
+			} else if(args[0].equalsIgnoreCase("realtime")) {
+				if(cl.toggleRealtimeOutput(sender)) {
+					sender.sendMessage(ChatColor.GREEN +"Realtime ON");
+				} else {
+					sender.sendMessage(ChatColor.GREEN +"Realtime OFF");
+				}
+				return true;
 			}
 		}
 		return false;
