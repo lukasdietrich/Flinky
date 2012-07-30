@@ -3,6 +3,7 @@ package de.splashfish.flinky;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.TimerTask;
 
 import org.bukkit.ChatColor;
@@ -43,11 +44,18 @@ public class ChatListener implements Listener {
 	}
 	
 	private void printToPlayers(String s) {
-		for(CommandSender p : realtime) {
-			if(p instanceof Player && !((Player)p).isOnline())
-				realtime.remove(p);
-			else
-				p.sendMessage(ChatColor.DARK_AQUA +"[FLINKY]"+ ChatColor.GOLD +" "+ s);
+		for(int i = 0; i < realtime.size(); i++) {
+			try {
+				CommandSender p = realtime.get(i);
+				if(p instanceof Player && !((Player)p).isOnline())
+					realtime.remove(p);
+				else
+					p.sendMessage(ChatColor.DARK_AQUA +"[FLINKY]"+ ChatColor.GOLD +" "+ s);
+			} catch (ConcurrentModificationException e) {
+				// sender seems to be not accessible anymore
+				realtime.remove(i);
+				i--;
+			}
 		}
 	}
 	
