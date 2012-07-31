@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -59,41 +60,50 @@ public class ChatListener implements Listener {
 		}
 	}
 	
+	private void log(String message, Player p) {
+		if(p instanceof Player) {
+			Location loc = p.getLocation();
+			message = "["+ loc.getBlockX() +", "+ loc.getBlockY() +", "+ loc.getBlockZ() +"] " + message;
+		}
+		
+		buffer.log(message);
+	}
+	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint1(PlayerChatEvent e) {
-		buffer.log(e.getPlayer().getName() +": "+ e.getMessage());
+		log(e.getPlayer().getName() +": "+ e.getMessage(), e.getPlayer());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint2(PlayerCommandPreprocessEvent e) {
 		if(e.getMessage().toLowerCase().startsWith("/login")) {
-			buffer.log(e.getPlayer().getName() +" tries to login via AuthMe");
+			log(e.getPlayer().getName() +" tries to login via AuthMe", e.getPlayer());
 		} else if(e.getMessage().toLowerCase().startsWith("/register")) {
-			buffer.log(e.getPlayer().getName() +" tries to register via AuthMe");
+			log(e.getPlayer().getName() +" tries to register via AuthMe", e.getPlayer());
 		} else {
-			buffer.log(e.getPlayer().getName() +": "+ e.getMessage());
+			log(e.getPlayer().getName() +": "+ e.getMessage(), e.getPlayer());
 			printToPlayers(e.getPlayer().getName() +": "+ e.getMessage());
 		}
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint3(PlayerLoginEvent e) {
-		buffer.log(e.getPlayer().getName() +"@"+ e.getAddress().getHostAddress() +" logged in");
+		log(e.getPlayer().getName() +"@"+ e.getAddress().getHostAddress() +" logged in", e.getPlayer());
 		buffer.profile(e.getPlayer(), e.getAddress().getHostAddress());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint4(PlayerQuitEvent e) {
-		buffer.log(e.getPlayer().getName() +" logged out");
+		log(e.getPlayer().getName() +" logged out", e.getPlayer());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint5(PlayerDeathEvent e) {
-		buffer.log(e.getDeathMessage());
+		log(e.getDeathMessage(), e.getEntity());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint6(PlayerKickEvent e) {
-		buffer.log(e.getPlayer().getName() +" was kicked because '"+ e.getReason() +"'");
+		log(e.getPlayer().getName() +" was kicked because '"+ e.getReason() +"'", e.getPlayer());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST) public void chatPrint7(ServerCommandEvent e) {
 		if(!e.getCommand().toLowerCase().startsWith("rtping")) {
-			buffer.log("Console: /"+ e.getCommand());
+			log("Console: /"+ e.getCommand(), null);
 			printToPlayers("Console: /"+ e.getCommand());
 		}
 	}
